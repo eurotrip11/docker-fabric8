@@ -1,5 +1,6 @@
 FROM debian:stable
 
+ENV http_proxy=http://192.168.21.28:3128
 RUN apt-get update && apt-get install -y --no-install-recommends procps openjdk-7-jre-headless tar curl && apt-get autoremove -y && apt-get clean
 
 ENV FABRIC8_REPO_URL http://repo.fusesource.com/nexus/content/groups/public
