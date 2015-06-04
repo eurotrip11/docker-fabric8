@@ -35,6 +35,7 @@ RUN sed -i '/runtime.id=/d' /opt/fabric8/etc/system.properties
 RUN echo bind.address=0.0.0.0 >> /opt/fabric8/etc/system.properties
 RUN echo fabric.environment=docker >> /opt/fabric8/etc/system.properties
 RUN echo zookeeper.password.encode=true >> /opt/fabric8/etc/system.properties
+RUN echo "admin=${ADMIN_USERNAME},${ADMIN_PASSWORD}" >> /opt/fabric8/etc/users.properties
 
 # lets remove the karaf.delay.console=true to disable the progress bar
 RUN sed -i 's/karaf.delay.console=true/karaf.delay.console=false/' /opt/fabric8/etc/config.properties 
