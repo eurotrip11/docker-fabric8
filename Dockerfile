@@ -59,4 +59,5 @@ EXPOSE 1099 2181 8101 8181 9300 9301 44444 61616
 # lets default to the fabric8 dir so folks can more easily navigate to the data/logs
 WORKDIR /opt/fabric8
 
-CMD /opt/fabric8/startup.sh
+CMD /opt/fabric8/bin/karaf server
+#CMD /opt/fabric8/startup.sh
