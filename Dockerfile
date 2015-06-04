@@ -36,7 +36,7 @@ ENV ADMIN_USERNAME=admin
 ENV ADMIN_PASSWORD=admin
 
 RUN echo bind.address=0.0.0.0 >> /opt/fabric8/etc/system.properties
-RUN echo fabric.environment=docker >> /opt/fabric8/etc/system.properties
+#RUN echo fabric.environment=docker >> /opt/fabric8/etc/system.properties
 RUN echo zookeeper.password.encode=true >> /opt/fabric8/etc/system.properties
 RUN echo -e "\nadmin=$ADMIN_USERNAME,$ADMIN_PASSWORD" >> /opt/fabric8/etc/users.properties
 #RUN echo "admin=${ADMIN_USERNAME},${ADMIN_PASSWORD}" >> /opt/fabric8/etc/users.properties
@@ -65,5 +65,4 @@ EXPOSE 1099 2181 8101 8181 9300 9301 44444 61616
 # lets default to the fabric8 dir so folks can more easily navigate to the data/logs
 WORKDIR /opt/fabric8
 
-#CMD /opt/fabric8/bin/karaf server
-CMD /opt/fabric8/startup.sh
+CMD /opt/fabric8/bin/karaf server
