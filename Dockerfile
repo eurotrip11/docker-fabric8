@@ -38,7 +38,7 @@ ENV ADMIN_PASSWORD=admin
 RUN echo bind.address=0.0.0.0 >> /opt/fabric8/etc/system.properties
 #RUN echo fabric.environment=docker >> /opt/fabric8/etc/system.properties
 RUN echo zookeeper.password.encode=true >> /opt/fabric8/etc/system.properties
-RUN echo -e "\nadmin=$ADMIN_USERNAME,$ADMIN_PASSWORD" >> /opt/fabric8/etc/users.properties
+RUN echo "\nadmin=$ADMIN_USERNAME,$ADMIN_PASSWORD" >> /opt/fabric8/etc/users.properties
 #RUN echo "admin=${ADMIN_USERNAME},${ADMIN_PASSWORD}" >> /opt/fabric8/etc/users.properties
 
 # lets remove the karaf.delay.console=true to disable the progress bar
@@ -65,7 +65,7 @@ EXPOSE 1099 2181 8101 8181 9300 9301 44444 61616
 # lets default to the fabric8 dir so folks can more easily navigate to the data/logs
 WORKDIR /opt/fabric8
 
-RUN echo -e "\nkaraf.name=$FABRIC8_KARAF_NAME" >> /opt/fabric8/etc/system.properties
-RUN echo -e "\nruntime.id=$FABRIC8_RUNTIME_ID" >> /opt/fabric8/etc/system.properties
+RUN echo "\nkaraf.name=$FABRIC8_KARAF_NAME" >> /opt/fabric8/etc/system.properties
+RUN echo "\nruntime.id=$FABRIC8_RUNTIME_ID" >> /opt/fabric8/etc/system.properties
 
 CMD /opt/fabric8/bin/karaf server
