@@ -38,7 +38,7 @@ ENV ADMIN_PASSWORD=admin
 RUN echo bind.address=0.0.0.0 >> /opt/fabric8/etc/system.properties
 RUN echo fabric.environment=docker >> /opt/fabric8/etc/system.properties
 RUN echo zookeeper.password.encode=true >> /opt/fabric8/etc/system.properties
-RUN echo \nadmin=admin,admin >> /opt/fabric8/etc/users.properties
+RUN echo -e "\nadmin=$ADMIN_USERNAME,$ADMIN_PASSWORD" >> /opt/fabric8/etc/users.properties
 #RUN echo "admin=${ADMIN_USERNAME},${ADMIN_PASSWORD}" >> /opt/fabric8/etc/users.properties
 
 # lets remove the karaf.delay.console=true to disable the progress bar
