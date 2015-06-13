@@ -1,0 +1,1 @@
+Docker Image per Fabric8
