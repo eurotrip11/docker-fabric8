@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends procps openjdk-
 
 ENV FABRIC8_REPO_URL http://repo.fusesource.com/nexus/content/groups/public
 #ENV FABRIC8_REPO_URL https://repo1.maven.org/maven2
-ENV FABRIC8_DISTRO_VERSION 1.0.0.redhat-379
-#ENV FABRIC8_DISTRO_VERSION 1.1.0.CR2	
+#ENV FABRIC8_DISTRO_VERSION 1.0.0.redhat-379
+ENV FABRIC8_DISTRO_VERSION 1.2.0.redhat-128	
 ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
 #ENV FABRIC8_PUBLIC_HOSTNAME fabric8.dev
 #ENV FABRIC8_GLOBAL_RESOLVER publichostname
