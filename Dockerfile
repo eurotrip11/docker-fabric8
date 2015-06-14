@@ -1,12 +1,21 @@
 FROM debian:stable
 
-ENV http_proxy=http://192.168.21.28:3128
+#ENV http_proxy=http://192.168.21.28:3128
 RUN apt-get update && apt-get install -y --no-install-recommends procps openjdk-7-jre-headless tar curl && apt-get autoremove -y && apt-get clean
 
 ENV FABRIC8_REPO_URL http://repo.fusesource.com/nexus/content/groups/public
 #ENV FABRIC8_REPO_URL https://repo1.maven.org/maven2
 ENV FABRIC8_DISTRO_VERSION 1.0.0.redhat-379
+#ENV FABRIC8_DISTRO_VERSION 1.1.0.CR2	
 ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk-amd64
+#ENV FABRIC8_PUBLIC_HOSTNAME fabric8.dev
+#ENV FABRIC8_GLOBAL_RESOLVER publichostname
+ENV FABRIC8_RUNTIME_ID root
+ENV FABRIC8_KARAF_NAME root
+ENV FABRIC8_BINDADDRESS 0.0.0.0
+#ENV FABRIC8_PROFILES docker
+ENV FABRIC8_HTTP_PORT 8181
+ENV FABRIC8_HTTP_PROXY_PORT 8181
 
 # create the fabric8 user and group
 RUN groupadd -r fabric8 -g 433 && useradd -u 431 -r -g fabric8 -d /opt/fabric8 -s /sbin/nologin -c "fabric8 user" fabric8
@@ -19,9 +28,9 @@ RUN cd /opt && curl $FABRIC8_REPO_URL/io/fabric8/fabric8-karaf/$FABRIC8_DISTRO_V
 # Make sure the distribution is available from a well-known place
 RUN ln -s /opt/fabric8-karaf-$FABRIC8_DISTRO_VERSION /opt/fabric8 && chown -R fabric8:fabric8 /opt/fabric8
 
-ADD startup.sh /opt/fabric8/startup.sh
+#ADD startup.sh /opt/fabric8/startup.sh
 
-RUN chown -R fabric8:fabric8 /opt/fabric8 /opt/fabric8/startup.sh /opt/fabric8-karaf-$FABRIC8_DISTRO_VERSION /opt/fabric8-karaf-$FABRIC8_DISTRO_VERSION/*
+RUN chown -R fabric8:fabric8 /opt/fabric8 /opt/fabric8-karaf-$FABRIC8_DISTRO_VERSION /opt/fabric8-karaf-$FABRIC8_DISTRO_VERSION/*
 
 # TODO we have an issue with permissions and ownership on boot2docker:
 # https://github.com/boot2docker/boot2docker/issues/527
@@ -35,7 +44,12 @@ RUN sed -i '/runtime.id=/d' /opt/fabric8/etc/system.properties
 ENV ADMIN_USERNAME=admin
 ENV ADMIN_PASSWORD=admin
 
-RUN echo bind.address=0.0.0.0 >> /opt/fabric8/etc/system.properties
+RUN echo "\nbind.address=0.0.0.0" >> /opt/fabric8/etc/system.properties
+#RUN echo "\npublichostname=$FABRIC8_PUBLIC_HOSTNAME" >> /opt/fabric8/etc/system.properties
+#RUN cat /opt/fabric8/etc/system.properties | grep -v 'local.resolver=' | grep -v 'global.resolver=' > /opt/fabric8/etc/system.properties.tmp
+#RUN mv /opt/fabric8/etc/system.properties.tmp etc/system.properties
+#RUN echo "\nlocal.resolver=$FABRIC8_GLOBAL_RESOLVER" >> /opt/fabric8/etc/system.properties
+#RUN echo "\nglobal.resolver=$FABRIC8_GLOBAL_RESOLVER" >> /opt/fabric8/etc/system.properties
 #RUN echo fabric.environment=docker >> /opt/fabric8/etc/system.properties
 RUN echo zookeeper.password.encode=true >> /opt/fabric8/etc/system.properties
 RUN echo "\nadmin=$ADMIN_USERNAME,$ADMIN_PASSWORD" >> /opt/fabric8/etc/users.properties
@@ -52,13 +66,6 @@ RUN sed -i 's/log4j.rootLogger=INFO, out, osgi:*/log4j.rootLogger=INFO, stdout, 
 
 #ENV DOCKER_HOST http://172.17.42.1:4243
 #ENV DOCKER_HOST http://192.168.59.103:2375
-ENV FABRIC8_RUNTIME_ID root
-ENV FABRIC8_KARAF_NAME root
-ENV FABRIC8_BINDADDRESS 0.0.0.0
-#ENV FABRIC8_PROFILES docker
-ENV FABRIC8_HTTP_PORT 8181
-ENV FABRIC8_HTTP_PROXY_PORT 8181
-ENV FABRIC8_GLOBAL_RESOLVER localip
 
 EXPOSE 1099 2181 8101 8181 9300 9301 44444 61616
 
